@@ -55,14 +55,14 @@ QByteArray toQByteArray(const unsigned char *data, const size_t length)
 }
 
 /**
- * @brief noVirtualMemory
+ * @brief noVirtualMemory Prevents the data of the ByteArray from being swapped to disk.
  * @param data
- * @return true if no error
+ * @return true if no error. Data must not be subject to any operations that may deep-copy, reallocate it or it may still be swapped.
  */
 bool noVirtualMemory(const QByteArray &data)
 {
 #ifdef WINDOWS
-    // Do something similar, VirtualLock()?
+    // TODO: Do something similar for Windows, VirtualLock()?
 #else
     return mlock(data.constData(), data.length()) == 0;
 #endif
