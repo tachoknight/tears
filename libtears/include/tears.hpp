@@ -4,6 +4,7 @@
 #include <QByteArray>
 
 #include <tears/crypto.hpp>
+#include <tears/hashing.hpp>
 #include <tears/util.hpp>
 
 #endif // TEARS_HPP

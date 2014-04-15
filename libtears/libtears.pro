@@ -13,11 +13,13 @@ CONFIG += staticlib
 
 HEADERS += include/tears.hpp \
     include/tears/crypto.hpp \
-    include/tears/util.hpp
+    include/tears/util.hpp \
+    include/tears/hashing.hpp
 
 SOURCES += \
     src/crypto.cpp \
-    src/util.cpp
+    src/util.cpp \
+    src/hashing.cpp
 
 INCLUDEPATH += $$PWD/include/
 
