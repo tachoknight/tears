@@ -1,0 +1,19 @@
+language: cpp
+compiler:
+ - gcc
+ - clang
+env:
+ - TYPE=debug
+ - TYPE=release
+install:
+ - sudo add-apt-repository ppa:ubuntu-sdk-team/ppa
+ - sudo apt-get update -qq
+ - sudo apt-get install -qq qtbase-opensource-src
+ - ./scripts/install-sodium.sh
+script: ./scripts/run-travis-build.sh
+notifications:
+  recipients:
+    - anders+trtests@truenull.se
+  email:
+    on_success: change
+    on_failure: always
