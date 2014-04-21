@@ -1,4 +1,10 @@
+set -ex
 cd .. 
 mkdir build-${TYPE}
 cd build-${TYPE}
-qmake "CONFIG+=${TYPE}" ../tears && make && make -s check
+echo "Running qmake"
+qmake "CONFIG+=${TYPE}" ../tears 
+echo "Running make"
+make 
+echo "Running tests"
+make -s check
