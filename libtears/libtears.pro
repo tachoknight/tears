@@ -23,10 +23,7 @@ SOURCES += \
 
 INCLUDEPATH += $$PWD/include/
 
-unix {
-    # Link to libsodium
-    CONFIG += link_pkgconfig
-    PKGCONFIG += libsodium
-}
+
+include(../config/link-sodium.pri)
 
 win32:DEFINES += WINDOWS
