@@ -6,9 +6,11 @@
 
 /* this was missing in my systems sodium implementation (probably due to master branch being six months ahead of a release)
  Uncomment if you need it
- TODO: remove these lines once a version of Sodium that exports the constants is available
+ TODO: remove these lines once a version of Sodium that exports the constants is available */
+#ifndef crypto_secretbox_MACBYTES
 #define crypto_secretbox_xsalsa20poly1305_MACBYTES (crypto_secretbox_xsalsa20poly1305_ZEROBYTES - crypto_secretbox_xsalsa20poly1305_BOXZEROBYTES)
-#define crypto_secretbox_MACBYTES crypto_secretbox_xsalsa20poly1305_MACBYTES */
+#define crypto_secretbox_MACBYTES crypto_secretbox_xsalsa20poly1305_MACBYTES
+#endif
 
 namespace Tears
 {
