@@ -6,7 +6,7 @@ env:
  - TYPE=debug
  - TYPE=release
 install:
- - sudo add-apt-repository ppa:ubuntu-sdk-team/ppa
+ - sudo add-apt-repository ppa:ubuntu-sdk-team/ppa -y
  - sudo apt-get update -qq
  - sudo apt-get install -qq qtbase-opensource-src
  - ./scripts/install-sodium.sh
