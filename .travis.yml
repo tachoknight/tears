@@ -8,7 +8,7 @@ env:
 install:
  - sudo add-apt-repository ppa:ubuntu-sdk-team/ppa -y
  - sudo apt-get update -y
- - sudo apt-get install -qq -y qtbase5-dev
+ - sudo apt-get install -qq -y qtbase5-dev libtool autoconf
  - export QT_SELECT=5
  - ./scripts/install-sodium.sh
 script: ./scripts/run-travis-build.sh
