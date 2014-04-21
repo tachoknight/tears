@@ -5,11 +5,11 @@ compiler:
 env:
  - TYPE=debug
  - TYPE=release
- - QT_SELECT=5
 install:
  - sudo add-apt-repository ppa:ubuntu-sdk-team/ppa -y
  - sudo apt-get update -y
  - sudo apt-get install -qq -y qtbase5-dev
+ - export QT_SELECT=5
  - ./scripts/install-sodium.sh
 script: ./scripts/run-travis-build.sh
 notifications:
