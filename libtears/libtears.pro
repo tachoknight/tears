@@ -24,10 +24,7 @@ SOURCES += \
 INCLUDEPATH += $$PWD/include/
 
 unix {
-    target.path = /usr/lib
-    INSTALLS += target
-
-    # Include libsodium
+    # Link to libsodium
     CONFIG += link_pkgconfig
     PKGCONFIG += libsodium
 }
