@@ -10,16 +10,7 @@ Hashing::Hashing(QObject *parent) :
     QObject(parent)
 {
 }
-static inline void
-be32enc(void *pp, uint32_t x)
-{
-    uint8_t * p = (uint8_t *)pp;
 
-    p[3] = x & 0xff;
-    p[2] = (x >> 8) & 0xff;
-    p[1] = (x >> 16) & 0xff;
-    p[0] = (x >> 24) & 0xff;
-}
 QByteArray Hashing::PBKDF2_SHA256_easy(const QString &password, const QByteArray &salt, const size_t &count, const size_t &dkLen)
 {
     QByteArray buffer;
