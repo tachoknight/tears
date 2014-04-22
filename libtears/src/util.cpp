@@ -47,9 +47,14 @@ QByteArray toQByteArray(const unsigned char *data, const size_t length)
     return output;
 }
 
-bool mlock(const QByteArray &data)
+bool lockMemory(const QByteArray &data)
 {
     return sodium_mlock((void*const)data.constData(), data.length()) == TEARS_SODIUM_SUCCESS;
+}
+
+bool unlockMemory(const QByteArray &data)
+{
+    return sodium_munlock((void*const)data.constData(), data.length()) == TEARS_SODIUM_SUCCESS;
 }
 
 } // End of Tears NS

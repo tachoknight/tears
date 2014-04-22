@@ -146,7 +146,7 @@ const QByteArray Crypto::secretBoxNonce()
 const QByteArray Crypto::secretBoxKey()
 {
     QByteArray key = Crypto::getRandom(crypto_secretbox_KEYBYTES);
-    return Tears::mlock(key.constData()) ? key:QByteArray();
+    return Tears::lockMemory(key.constData()) ? key:QByteArray();
 }
 
 const QByteArray Crypto::getRandom(size_t size)

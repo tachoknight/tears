@@ -55,7 +55,15 @@ TEARS_EXPORT QByteArray toQByteArray(const unsigned char* data, const size_t len
  * @param data
  * @return true if no error.
  */
-TEARS_EXPORT bool mlock(const QByteArray &data);
+TEARS_EXPORT bool lockMemory(const QByteArray &data);
+
+/**
+ * @brief Allows the data of the ByteArray to be swapped to disk again.
+ *
+ * @param data
+ * @return true if no error.
+ */
+TEARS_EXPORT bool unlockMemory(const QByteArray &data);
 
 } // End of Tears NS
 #endif // UTIL_HPP
