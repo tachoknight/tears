@@ -11,7 +11,6 @@ public:
 
 private Q_SLOTS:
     void testEncryptDecryptQString();
-    void testEncryptDecryptQString_data();
     void testBigArray();
 };
 
@@ -26,41 +25,31 @@ TearstestCrypto::TearstestCrypto()
  */
 void TearstestCrypto::testEncryptDecryptQString()
 {
-    QFETCH(QString, message);
-    QFETCH(QByteArray, nonce);
-    QFETCH(QByteArray, key);
-
-    QByteArray messageBytes = message.toUtf8();
-    QByteArray afterBoxing = Tears::Crypto::secretBox(messageBytes, nonce, key);
-    QVERIFY2(afterBoxing.length() != 0, "Null result returned on encryption using Crypto::secretBox()");
-
-    QByteArray afterOpening = Tears::Crypto::secretBoxOpen(afterBoxing, nonce, key);
-
-    QVERIFY2(afterOpening.length() != 0, "Null result returned on encryption using Crypto::secretBoxOpen()");
-    //QVERIFY2(messageBytes == afterOpening, "messageBytes is not the same as afterOpening, Crypto::secretBoxOpen()");
-
-    QString actual(afterOpening);
-    QVERIFY2(actual == message, "Error comparing before and after encryption");
-
-    Tears::Crypto::wipe(key);
-}
-
-
-void TearstestCrypto::testEncryptDecryptQString_data()
-{
     // Test string is an excerpt from Hemsöborna by August Strindberg. Courtesy of project Gutenberg
-    static QString  teststring = QString::fromUtf8("- Det är präktiga djur det här sa Carlsson och klämde dem över bröstet för att känna, om de voro feta. Han är en snäll skytt kan jag se, för skotten sitter på rätta stället.");
+    static const QString teststring = QString::fromUtf8("- Det är präktiga djur det här sa Carlsson och klämde dem över bröstet för att känna, om de voro feta. Han är en snäll skytt kan jag se, för skotten sitter på rätta stället.");
     QTest::addColumn<QString>("message");
     QTest::addColumn<QByteArray>("nonce");
     QTest::addColumn<QByteArray>("key");
     for(int i = 1; i < teststring.size(); ++i)
     {
-        QTest::newRow(QString::number(i).toUtf8())
-                << teststring.left(i)
-                << Tears::Crypto::secretBoxNonce()
-                << Tears::Crypto::secretBoxKey();
+        QString message = teststring.left(i);
+        QByteArray nonce = Tears::Crypto::secretBoxNonce();
+        QByteArray key = Tears::Crypto::secretBoxKey();
+
+        QByteArray messageBytes = message.toUtf8();
+        QByteArray afterBoxing = Tears::Crypto::secretBox(messageBytes, nonce, key);
+        QVERIFY2(afterBoxing.length() != 0, "Null result returned on encryption using Crypto::secretBox()");
+
+        QByteArray afterOpening = Tears::Crypto::secretBoxOpen(afterBoxing, nonce, key);
+
+        QVERIFY2(afterOpening.length() != 0, "Null result returned on encryption using Crypto::secretBoxOpen()");
+        QString actual(afterOpening);
+        QVERIFY2(actual == message, "Error comparing before and after encryption");
+
+        Tears::unlockMemory(key);
+        Tears::Crypto::wipe(key);
     }
-}//*/
+}
 
 void TearstestCrypto::testBigArray()
 {
@@ -75,6 +64,8 @@ void TearstestCrypto::testBigArray()
     QByteArray decrypted = Tears::Crypto::secretBoxOpen(encrypted, nonce, key);
     QVERIFY2(decrypted.length() != 0, "Null result returned on encryption using Crypto::secretBox()");
     QVERIFY2(buffer == decrypted, "Comparison of large buffer failed after Crypto::secretBoxOpen()");
+
+    Tears::unlockMemory(key);
     Tears::Crypto::wipe(key);
 }
 
