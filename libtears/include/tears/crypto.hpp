@@ -6,7 +6,7 @@
 
 namespace Tears
 {
-class Crypto
+class TEARS_EXPORT Crypto
 {
  public:
     Crypto();

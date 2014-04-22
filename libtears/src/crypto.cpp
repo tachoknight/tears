@@ -16,6 +16,7 @@ namespace Tears
 {
 
 using namespace Tears;
+
 Crypto::Crypto()
 {
 }

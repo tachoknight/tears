@@ -6,11 +6,10 @@
 
 namespace Tears
 {
-
 /**
  * @brief initalize_tears Initalizes library functions. Must be called once and only once per application run.
  */
-void initialize_tears();
+TEARS_EXPORT void initialize_tears();
 
 
 /**
@@ -18,28 +17,28 @@ void initialize_tears();
  * @param in
  * @return Reinterprets in to a unsigned char *
  */
-char* toChar(unsigned char* in);
+TEARS_EXPORT char* toChar(unsigned char* in);
 
 /**
  * @brief toConstUnsignedChar
  * @param in
  * @return Reinterprets in to a constant unsigned char *
  */
-const unsigned char* toConstUnsignedChar(const char* in);
+TEARS_EXPORT const unsigned char* toConstUnsignedChar(const char* in);
 
 /**
  * @brief toConstUnsignedChar
  * @param in
  * @return Reinterprets in to a constant unsigned char *
  */
-const char* toConstChar(const unsigned char* in);
+TEARS_EXPORT const char* toConstChar(const unsigned char* in);
 
 /**
  * @brief toUnsignedChar
  * @param in
  * @return Reinterprets in to a unsigned char *
  */
-unsigned char* toUnsignedChar(char* in);
+TEARS_EXPORT unsigned char* toUnsignedChar(char* in);
 
 /**
  * @brief toQByteArray Copies length from buffer to a QByteArray
@@ -47,8 +46,9 @@ unsigned char* toUnsignedChar(char* in);
  * @param length Length to copy from data.
  * @return First length bytes from data.
  */
-QByteArray toQByteArray(const unsigned char* data, const size_t length);
-}
+TEARS_EXPORT QByteArray toQByteArray(const unsigned char* data, const size_t length);
 
-bool noVirtualMemory(const QByteArray &data);
+TEARS_EXPORT bool noVirtualMemory(const QByteArray &data);
+
+} // End of Tears::Util NS
 #endif // UTIL_HPP

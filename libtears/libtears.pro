@@ -4,12 +4,16 @@
 #
 #-------------------------------------------------
 
-QT       -= gui
+QT -= gui
 QT += core
 
 TARGET = tears
 TEMPLATE = lib
+
+!CONFIG(sharedlib) {
 CONFIG += staticlib
+message(Making static lib)
+}
 
 HEADERS += include/tears.hpp \
     include/tears/crypto.hpp \
@@ -23,7 +27,6 @@ SOURCES += \
 
 INCLUDEPATH += $$PWD/include/
 
-
 include(../config/link-sodium.pri)
 
-win32:DEFINES += WINDOWS
+DEFINES += TEARS_LIBRARY

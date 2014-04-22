@@ -1,5 +1,14 @@
 #ifndef TEARS_HPP
 #define TEARS_HPP
+
+#include <QtCore/QtGlobal>
+
+#if defined(TEARS_LIBRARY)
+#  define TEARS_EXPORT Q_DECL_EXPORT
+#else
+#  define TEARS_EXPORT Q_DECL_IMPORT
+#endif
+
 #include <sodium.h>
 #include <QByteArray>
 
