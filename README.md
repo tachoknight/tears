@@ -3,9 +3,12 @@ Tears is a C++ wrapper library of libsodium using Qt datatypes.
 
 There is no stable release of Tears as of yet since development
 has just started and also because libsodium has not had a release
-since 0.4.5
+since 0.4.5 and we use some of the functionality that has been 
+developed since then.
 
 ##Build:##
+[![Build Status](https://travis-ci.org/truenull/tears.svg?branch=master)](https://travis-ci.org/truenull/tears)
+
     git clone <url> tears
     mkdir build
     cd build
