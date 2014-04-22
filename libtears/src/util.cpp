@@ -1,12 +1,7 @@
 #include <sodium.h>
 #include "tears/util.hpp"
 #include <QByteArray>
-#ifdef WINDOWS
-#include <Windows.h>
-#include <WinBase.h>
-#else
-#include <sys/mman.h>
-#endif
+
 namespace Tears
 {
 
@@ -52,18 +47,9 @@ QByteArray toQByteArray(const unsigned char *data, const size_t length)
     return output;
 }
 
+bool mlock(const QByteArray &data)
+{
+    return sodium_mlock((void*const)data.constData(), data.length()) == TEARS_SODIUM_SUCCESS;
 }
 
-/**
- * @brief noVirtualMemory Prevents the data of the ByteArray from being swapped to disk.
- * @param data
- * @return true if no error. Data must not be subject to any operations that may deep-copy, reallocate it or it may still be swapped.
- */
-bool noVirtualMemory(const QByteArray &data)
-{
-#ifdef WINDOWS
-    // TODO: Do something similar for Windows, VirtualLock()?
-#else
-    return mlock(data.constData(), data.length()) == 0;
-#endif
-}
+} // End of Tears NS

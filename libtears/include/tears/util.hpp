@@ -7,48 +7,55 @@
 namespace Tears
 {
 /**
- * @brief initalize_tears Initalizes library functions. Must be called once and only once per application run.
+ * @brief Initializes library functions
+ * @details Should be called once per application run to allow defaults to be selected.
  */
 TEARS_EXPORT void initialize_tears();
 
 
 /**
- * @brief toUnsignedChar
+ * @brief Reinterpretation of in
  * @param in
  * @return Reinterprets in to a unsigned char *
  */
 TEARS_EXPORT char* toChar(unsigned char* in);
 
 /**
- * @brief toConstUnsignedChar
+ * @brief Reinterpretation of in variable
  * @param in
  * @return Reinterprets in to a constant unsigned char *
  */
 TEARS_EXPORT const unsigned char* toConstUnsignedChar(const char* in);
 
 /**
- * @brief toConstUnsignedChar
+ * @brief Reinterpretation of in
  * @param in
  * @return Reinterprets in to a constant unsigned char *
  */
 TEARS_EXPORT const char* toConstChar(const unsigned char* in);
 
 /**
- * @brief toUnsignedChar
+ * @brief Reinterpretation of in
  * @param in
  * @return Reinterprets in to a unsigned char *
  */
 TEARS_EXPORT unsigned char* toUnsignedChar(char* in);
 
 /**
- * @brief toQByteArray Copies length from buffer to a QByteArray
+ * @brief Copies length from buffer to a QByteArray
  * @param data
- * @param length Length to copy from data.
- * @return First length bytes from data.
+ * @param length Number of chars to copy from data.
+ * @return QByteArray with first length bytes from data.
  */
 TEARS_EXPORT QByteArray toQByteArray(const unsigned char* data, const size_t length);
 
-TEARS_EXPORT bool noVirtualMemory(const QByteArray &data);
+/**
+ * @brief Prevents the data of the ByteArray from being swapped to disk.
+ * @details If the data is deep-copied or reallocated then it may still be swapped.
+ * @param data
+ * @return true if no error.
+ */
+TEARS_EXPORT bool mlock(const QByteArray &data);
 
-} // End of Tears::Util NS
+} // End of Tears NS
 #endif // UTIL_HPP

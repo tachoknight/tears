@@ -1,6 +1,5 @@
 #include "tears.hpp"
 #include "tears/util.hpp"
-#define TEARS_SODIUM_SUCCESS 0
 #include <QDebug>
 #include <limits>
 
@@ -147,8 +146,7 @@ const QByteArray Crypto::secretBoxNonce()
 const QByteArray Crypto::secretBoxKey()
 {
     QByteArray key = Crypto::getRandom(crypto_secretbox_KEYBYTES);
-    return key;
-    return noVirtualMemory(key.constData()) ? key:QByteArray();
+    return Tears::mlock(key.constData()) ? key:QByteArray();
 }
 
 const QByteArray Crypto::getRandom(size_t size)

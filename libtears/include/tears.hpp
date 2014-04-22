@@ -9,6 +9,8 @@
 #  define TEARS_EXPORT Q_DECL_IMPORT
 #endif
 
+#define TEARS_SODIUM_SUCCESS 0
+
 #include <sodium.h>
 #include <QByteArray>
 
