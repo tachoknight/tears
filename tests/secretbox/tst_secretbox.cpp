@@ -27,9 +27,7 @@ void TearstestCrypto::testEncryptDecryptQString()
 {
     // Test string is an excerpt from Hemsöborna by August Strindberg. Courtesy of project Gutenberg
     static const QString teststring = QString::fromUtf8("- Det är präktiga djur det här sa Carlsson och klämde dem över bröstet för att känna, om de voro feta. Han är en snäll skytt kan jag se, för skotten sitter på rätta stället.");
-    QTest::addColumn<QString>("message");
-    QTest::addColumn<QByteArray>("nonce");
-    QTest::addColumn<QByteArray>("key");
+
     for(int i = 1; i < teststring.size(); ++i)
     {
         QString message = teststring.left(i);
