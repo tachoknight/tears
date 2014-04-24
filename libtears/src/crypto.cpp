@@ -25,12 +25,12 @@ QByteArray Crypto::secretBox(const QByteArray &data, const QByteArray &nonce, co
     static QByteArray failure = "";
 
     // Verify pre-conditions
-    if((size_t)key.size() != crypto_secretbox_KEYBYTES)
+    if((size_t)key.size() != Crypto::secretBoxKeyBytes)
     {
         qDebug() <<"Crypto::secretBox() failed due to key size preconditions.";
         return failure;
     }
-    else if((size_t)nonce.length() != crypto_stream_NONCEBYTES)
+    else if((size_t)nonce.length() != Crypto::secretBoxNonceBytes)
     {
         qDebug() <<"Crypto::secretBox() failed due to nounce size preconditions.";
         return failure;
@@ -81,16 +81,16 @@ QByteArray Crypto::secretBoxOpen(const QByteArray &data, const QByteArray &nonce
     static QByteArray failure = "";
 
     // Verify pre-conditions
-    if((size_t)key.size() != crypto_secretbox_KEYBYTES)
+    if((size_t)key.size() != Crypto::secretBoxKeyBytes)
     {
         qDebug() <<"Crypto::secretBoxOpen() failed due to key not being of size:"
-                << crypto_secretbox_KEYBYTES;
+                <<  Crypto::secretBoxKeyBytes;
         return failure;
     }
-    else if((size_t)nonce.length() != crypto_secretbox_NONCEBYTES)
+    else if((size_t)nonce.length() != Crypto::secretBoxNonceBytes)
     {
         qDebug() <<"Crypto::secretBoxOpen() failed due to nounce not being of size:"
-                << crypto_secretbox_NONCEBYTES;
+                << Crypto::secretBoxNonceBytes;
         return failure;
     }
     else if(data.length() > (size_t)std::numeric_limits<std::size_t>::max()-crypto_secretbox_BOXZEROBYTES
@@ -140,12 +140,12 @@ QByteArray Crypto::secretBoxOpen(const QByteArray &data, const QByteArray &nonce
 
 const QByteArray Crypto::secretBoxNonce()
 {
-    return Crypto::getRandom(crypto_secretbox_NONCEBYTES);
+    return Crypto::getRandom(Crypto::secretBoxNonceBytes);
 }
 
 const QByteArray Crypto::secretBoxKey()
 {
-    QByteArray key = Crypto::getRandom(crypto_secretbox_KEYBYTES);
+    QByteArray key = Crypto::getRandom(Crypto::secretBoxKeyBytes);
     return Tears::lockMemory(key.constData()) ? key:QByteArray();
 }
 

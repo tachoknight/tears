@@ -37,7 +37,7 @@ void TearsPasswordHashTest::singleTestVector()
 
     QByteArray actual(dkLen, '\0');
     actual.resize(dkLen);
-    actual = Tears::Hashing::PBKDF2_SHA256_easy(password, salt, count, dkLen);
+    actual = Tears::Hashing::PBKDF2_SHA256(password, salt, count, dkLen);
     QVERIFY2(actual.toBase64() == expected.toBase64(), "Binary comparison of result failed");
 }
 
@@ -49,7 +49,7 @@ void TearsPasswordHashTest::rfcTestVectors()
     QFETCH(quint64, dkLen);
     QFETCH(QByteArray, expected);
     QByteArray actual;
-    actual = Tears::Hashing::PBKDF2_SHA256_easy(password, salt, count, dkLen);
+    actual = Tears::Hashing::PBKDF2_SHA256(password, salt, count, dkLen);
     QVERIFY2(actual == expected, "Failure");
 }
 

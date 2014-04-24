@@ -3,6 +3,10 @@
 
 #include <QObject>
 #include <sodium/crypto_auth_hmacsha256.h>
+/** @defgroup keygen Key Generation
+ * @brief Methods that are used to generate keys for cryptographic functions.
+ *
+ */
 namespace Tears
 {
 class Hashing : public QObject
@@ -12,8 +16,8 @@ public:
     explicit Hashing(QObject *parent = 0);
 
     /**
-     * @brief PBKDF2_SHA256 A Password Based Key Derivation Function using HMAC-SHA256.
-     *
+     * @brief A Password Based Key Derivation Function using HMAC-SHA256.
+     * @ingroup keygen
      * @details This algorithm is fairly cheap to implement in hardware. For increased security choose scrypt instead.
      * However libtears is waiting for libsodium to release their implementation since it is a bit trickier to implement
      * than PBKDF2.
@@ -28,9 +32,19 @@ public:
      * @param dkLen The size of the derived key. Max 32 * (2^32 - 1).
      * @return An array of length dkLen or 0 if something failed.
      */
-    static QByteArray PBKDF2_SHA256_easy(const QString &password, const QByteArray &salt, const size_t &count, const size_t &dkLen);
+    static QByteArray PBKDF2_SHA256(const QString &password, const QByteArray &salt, const size_t &count, const size_t &dkLen);
 
-    static QByteArray PBKDF2_SHA256(const QByteArray &key, const QByteArray &salt, const quint64 &count, const quint64 &dkLen, QByteArray &buffer);
+    /**
+     * @brief Used by the convenience wrapper PBKDF2_SHA256().
+     * @ingroup keygen
+     * @param key
+     * @param salt
+     * @param count
+     * @param dkLen
+     * @param buffer of size dkLen
+     * @return
+     */
+    static QByteArray PBKDF2_SHA256_hard(const QByteArray &key, const QByteArray &salt, const quint64 &count, const quint64 &dkLen, QByteArray &buffer);
 
 private:
 signals:

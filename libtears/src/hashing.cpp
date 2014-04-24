@@ -11,15 +11,15 @@ Hashing::Hashing(QObject *parent) :
 {
 }
 
-QByteArray Hashing::PBKDF2_SHA256_easy(const QString &password, const QByteArray &salt, const size_t &count, const size_t &dkLen)
+QByteArray Hashing::PBKDF2_SHA256(const QString &password, const QByteArray &salt, const size_t &count, const size_t &dkLen)
 {
     QByteArray buffer;
     buffer.resize(dkLen);
 
-    return Hashing::PBKDF2_SHA256( password.toUtf8(), salt, count, dkLen, buffer);
+    return Hashing::PBKDF2_SHA256_hard( password.toUtf8(), salt, count, dkLen, buffer);
 }
 
-QByteArray Hashing::PBKDF2_SHA256(const QByteArray &key, const QByteArray &saltin, const quint64 &count, const quint64 &dkLen, QByteArray &buffer)
+QByteArray Hashing::PBKDF2_SHA256_hard(const QByteArray &key, const QByteArray &saltin, const quint64 &count, const quint64 &dkLen, QByteArray &buffer)
 {
     static const QByteArray failure = "";
     crypto_auth_hmacsha256_state context;
