@@ -18,12 +18,15 @@ message(Making static lib)
 HEADERS += include/tears.hpp \
     include/tears/crypto.hpp \
     include/tears/util.hpp \
-    include/tears/hashing.hpp
+    include/tears/hashing.hpp \
+    include/tears/publickeycrypto.hpp \
+    include/tears/export.hpp
 
 SOURCES += \
     src/crypto.cpp \
     src/util.cpp \
-    src/hashing.cpp
+    src/hashing.cpp \
+    src/publickeycrypto.cpp
 
 INCLUDEPATH += $$PWD/include/
 
