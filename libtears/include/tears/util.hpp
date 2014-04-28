@@ -8,15 +8,6 @@
 namespace Tears
 {
 
-/**
- * @brief The CryptoFlags enum is used to pass messages to functions about what they should do.
- */
-enum CryptoFlags {
-    NoFlags,
-    FailOnLockFailure,
-    NoLockMemory
-};
-
 /** @defgroup util Utility functions
  * @brief Utility functions used throughout the codebase
  * @details The toChar()/toConstUnsignedChar() methods that just do a
@@ -25,6 +16,18 @@ enum CryptoFlags {
  *
  * @{
  */
+
+/**
+ * @brief The CryptoFlags enum is used to pass messages to functions about what they should do.
+ */
+enum CryptoFlags {
+    /// Flag that is guaranteed not the be any of the other flags.
+    NoFlags,
+    /// Do not return an empty array on failure of lockMemory()
+    FailOnLockFailure,
+    /// Do not lockMemory()
+    NoLockMemory
+};
 
 /**
  * @brief Initializes library functions
@@ -79,19 +82,20 @@ QByteArray toQByteArray(const unsigned char* data, const size_t length);
  * @brief Prevents the data of the ByteArray from being swapped to disk.
  * @details If the data is deep-copied or reallocated then it may still be swapped.
  * @param data
- * @return true if no error.
+ * @param flags Documented in Tears::CryptoFlags
+ * @return TRUE if no error. If there is an error, flags may override the return of FALSE.
  */
 TEARS_EXPORT
-bool lockMemory(const QByteArray &data);
+bool lockMemory(const QByteArray &data, CryptoFlags flags = FailOnLockFailure);
 
 /**
  * @brief Allows the data of the ByteArray to be swapped to disk again.
- *
  * @param data
- * @return true if no error.
+ * @param flags Documented in Tears::CryptoFlags
+ * @return TRUE if no error. If there is an error, flags may override the return of FALSE.
  */
 TEARS_EXPORT
-bool unlockMemory(const QByteArray &data);
+bool unlockMemory(const QByteArray &data, CryptoFlags flags = FailOnLockFailure);
 
 /**@}*/
 } // End of Tears NS

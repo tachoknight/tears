@@ -47,14 +47,27 @@ QByteArray toQByteArray(const unsigned char *data, const size_t length)
     return output;
 }
 
-bool lockMemory(const QByteArray &data)
+bool lockMemory(const QByteArray &data, CryptoFlags flags)
 {
-    return sodium_mlock((void*const)data.constData(), data.length()) == TEARS_SODIUM_SUCCESS;
+    if(flags == NoLockMemory)
+    {
+        return true;
+    }
+
+    // Return true if flag is not equal to FailOnLockFailure
+    return sodium_mlock((void*const)data.constData(), data.length()) == TEARS_SODIUM_SUCCESS
+            || flags != FailOnLockFailure;
 }
 
-bool unlockMemory(const QByteArray &data)
+bool unlockMemory(const QByteArray &data, CryptoFlags flags)
 {
-    return sodium_munlock((void*const)data.constData(), data.length()) == TEARS_SODIUM_SUCCESS;
+    if(flags == NoLockMemory)
+    {
+        return true;
+    }
+
+    return sodium_munlock((void*const)data.constData(), data.length()) == TEARS_SODIUM_SUCCESS
+            || flags != FailOnLockFailure;
 }
 
 } // End of Tears NS
