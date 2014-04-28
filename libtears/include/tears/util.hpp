@@ -2,11 +2,21 @@
 #define UTIL_HPP
 //#include <QByteArray>
 
-#include <tears.hpp>
+#include <tears/export.hpp>
 
 
 namespace Tears
 {
+
+/**
+ * @brief The CryptoFlags enum is used to pass messages to functions about what they should do.
+ */
+enum CryptoFlags {
+    NoFlags,
+    FailOnLockFailure,
+    NoLockMemory
+};
+
 /** @defgroup util Utility functions
  * @brief Utility functions used throughout the codebase
  * @details The toChar()/toConstUnsignedChar() methods that just do a
