@@ -57,7 +57,7 @@ class TEARS_EXPORT Crypto
     static QByteArray secretBoxOpen(const QByteArray &data, const QByteArray &nonce, const QByteArray &key);
 
     /**
-     * @brief Gets a nonce for use in secretbox
+     * @brief Gets a nonce for use in secretbox()
      * @details NaCl documentation considered the length of the returned nounce
      * sufficient for it not to risk being non-unique. You could also implement
      * a counter of length \a Tears::Crypto::secretBoxNonceBytes. If you do use a count you
@@ -65,7 +65,7 @@ class TEARS_EXPORT Crypto
      * same key.
      *
      * @ingroup asymenc
-     * @return A random nonce of \a Tears::Crypto::secretBoxNonceBytes that can be used in secretBox().
+     * @return A random nonce with a size of \a Tears::Crypto::secretBoxNonceBytes.
      */
     static const QByteArray secretBoxNonce();
 
@@ -89,6 +89,12 @@ class TEARS_EXPORT Crypto
      * @param data
      */
     static void wipe(QByteArray &data);
+
+    /****************************************************
+     *
+     *      CONSTANTS
+     *
+     ****************************************************/
 
     /**
      * @brief The number of bytes for a secretBox nonce
