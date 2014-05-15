@@ -34,7 +34,7 @@ QByteArray Crypto::secretBox(const QByteArray &data, const QByteArray &nonce, co
         qDebug() <<"Crypto::secretBox() failed due to nounce size preconditions.";
         return failure;
     }
-    else if(data.length() > std::numeric_limits<std::size_t>::max() - crypto_secretbox_ZEROBYTES)
+    else if((size_t)data.length() > std::numeric_limits<std::size_t>::max() - crypto_secretbox_ZEROBYTES)
     {
         qDebug() <<"Crypto::secretBox() failed due to data length preconditions.";
         return failure;
@@ -92,7 +92,7 @@ QByteArray Crypto::secretBoxOpen(const QByteArray &data, const QByteArray &nonce
                 << Crypto::secretBoxNonceBytes;
         return failure;
     }
-    else if(data.length() > (size_t)std::numeric_limits<std::size_t>::max()-crypto_secretbox_BOXZEROBYTES
+    else if((size_t)data.length() > (size_t)std::numeric_limits<std::size_t>::max()-crypto_secretbox_BOXZEROBYTES
             || (size_t)data.length() < crypto_secretbox_MACBYTES)
     {
         qDebug() <<"Crypto::secretBoxOpen() failed due to data length preconditions.";
@@ -159,6 +159,12 @@ const QByteArray Crypto::getRandom(size_t size)
 void Crypto::wipe(QByteArray &data)
 {
     sodium_memzero(data.data(), data.length());
+}
+
+void Crypto::wipe(QString &data)
+{
+    // QString doesn't have any way of accessing the memory directly :(
+    data.fill('\0');
 }
 
 void Crypto::printBinary(const unsigned char *bin, const size_t binLength)

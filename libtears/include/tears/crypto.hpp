@@ -90,6 +90,13 @@ class TEARS_EXPORT Crypto
      */
     static void wipe(QByteArray &data);
 
+
+    /**
+     * @brief Securely wipes the data of the input.
+     * @param data
+     */
+    static void wipe(QString &data);
+
     /****************************************************
      *
      *      CONSTANTS
