@@ -1,5 +1,6 @@
 #include "tears.hpp"
 #include "tears/hashing.hpp"
+#include "tears/util.hpp"
 #include <sodium.h>
 #include <sodium/crypto_auth_hmacsha256.h>
 
@@ -43,7 +44,6 @@ QByteArray Hashing::PBKDF2_SHA256_hard(const QByteArray &key, const QByteArray &
     crypto_auth_hmacsha256_init(&context, pkey, keyLength);
     crypto_auth_hmacsha256_update(&context, psalt, saltLength);
 
-
     while((i*bufLen) < dkLen)
     {
         internalSalt[0] = ((i+1) >> 24) & 0xff;
@@ -80,6 +80,38 @@ QByteArray Hashing::PBKDF2_SHA256_hard(const QByteArray &key, const QByteArray &
 
     sodium_memzero( &context, sizeof(crypto_auth_hmacsha256_state) );//*/
     return buffer;
+}
+
+QByteArray Hashing::pwhash_scrypt(size_t outLen, const QString &password, const QByteArray &salt, size_t memLimit, size_t opsLimit)
+{
+    QByteArray passwd = password.toUtf8();
+    QByteArray out(outLen, '\0');
+    if((size_t)out.length() != outLen)
+    {
+        return QByteArray();
+    }
+
+    if(Tears::Hashing::pwhash_scrypt_saltbytes != salt.length())
+    {
+        return QByteArray();
+    }
+
+    int result = crypto_pwhash_scryptxsalsa208sha256(
+                toUnsignedChar(out.data()), out.length(),
+                passwd.data(), passwd.length(),
+                toConstUnsignedChar(salt.data()),
+                memLimit,
+                opsLimit);
+    Crypto::wipe(passwd);
+
+    if(result == TEARS_SODIUM_SUCCESS)
+    {
+        return out;
+    }
+    else
+    {
+        return QByteArray();
+    }
 }
 
 } // End of Tears NS

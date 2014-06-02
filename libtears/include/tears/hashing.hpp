@@ -2,7 +2,8 @@
 #define PASSWORDHASHING_HPP
 
 #include <QObject>
-#include <sodium/crypto_auth_hmacsha256.h>
+#include <sodium.h>
+
 /** @defgroup keygen Key Generation
  * @brief Methods that are used to generate keys for cryptographic functions.
  *
@@ -18,9 +19,8 @@ public:
     /**
      * @brief A Password Based Key Derivation Function using HMAC-SHA256.
      * @ingroup keygen
-     * @details This algorithm is fairly cheap to implement in hardware. For increased security choose scrypt instead.
-     * However libtears is waiting for libsodium to release their implementation since it is a bit trickier to implement
-     * than PBKDF2.
+     * @details This algorithm is fairly cheap to implement in hardware. For increased security in new applications choose
+     * scrypt instead.
      *
      * The higher the count the more expensive it is to bruteforce since the amount of work needed to generate a key to
      * try in a bruteforce attack. Measure how many itterations it takes for a runtime of at least 0.2s on you lowest target
@@ -36,6 +36,7 @@ public:
 
     /**
      * @brief Used by the convenience wrapper PBKDF2_SHA256().
+     * @details Also useful if you want to use arbitrary binary data as a password.
      * @ingroup keygen
      * @param key
      * @param salt
@@ -46,6 +47,26 @@ public:
      */
     static QByteArray PBKDF2_SHA256_hard(const QByteArray &key, const QByteArray &salt, const quint64 &count, const quint64 &dkLen, QByteArray &buffer);
 
+    /**
+     * @brief A key derivation function using scrypt to generate a secret key.
+     * @details We supply a benchmark test in the pwhash_scrypt test that you can use to test out different values for memLimit and opsLimit. Read the Scrypt PDF on the Tarsnap website for details.
+     * @see https://www.tarsnap.com/scrypt.html
+     * @param outLen The length of the resulting key.
+     * @param password Will be converted to a Utf-8 bytearray
+     * @param salt A salt of length Tears::Hashing::pwhash_scrypt_saltbytes
+     * @param memLimit A doubling in memory limit roughly doubles the time (and also the memory) the key derivatinon takes. This should lead to increased cost to bruteforce passwords.
+     * @param opsLimit A higher value decreases the the time the key derivation takes to run. A higher value makes more CPU bound requiring attackers to have more processing power.
+     * @return A ByteArray of outLen or an empty array on failure
+     **/
+    static QByteArray pwhash_scrypt(size_t outLen, const QString &password, const QByteArray &salt, size_t memLimit, size_t opsLimit);
+
+    /**********************
+     *     CONSTANTS      *
+     **********************/
+    /**
+     * @brief The required length of the salt
+     */
+    static const size_t pwhash_scrypt_saltbytes = crypto_pwhash_scryptxsalsa208sha256_SALTBYTES;
 private:
 signals:
 
