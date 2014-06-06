@@ -8,10 +8,3 @@ SUBDIRS = \
     secretbox \
     box \
     pwhash_scrypt
-
-# Use .depends to specify that a project depends on another.
-pbkdf2-hmac-sha256.depends = libtears
-secretbox.depends = libtears
-box.depends = libtears
-pwhash_scrypt.depends = libtears
-

@@ -5,3 +5,6 @@ CONFIG += ordered
 # All the projects in your application are sub-projects of your solution
 SUBDIRS = libtears \
           tests
+
+# All tests depend on libtears so it will be built first
+tests.depends = libtears
