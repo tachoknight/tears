@@ -11,10 +11,12 @@ public:
 
 private Q_SLOTS:
     void box();
+    void boxBigArray();
 };
 
 BoxTest::BoxTest()
 {
+    Tears::initialize_tears();
 }
 
 void BoxTest::box()
@@ -35,6 +37,33 @@ void BoxTest::box()
 
     // Test decrypting
     actual = Tears::PublicKeyCrypto::boxOpen(cipherText, nonce, senderPublic, receiverSecret);
+
+    QVERIFY2(actual.length() != 0, "The result from boxOpen() was of length 0");
+    QVERIFY2(actual == original, "Comparison of plaintext and decrypted ciphertext was not equal");
+}
+
+void BoxTest::boxBigArray()
+{
+    QSKIP("");
+    QByteArray original = Tears::Crypto::getRandom(64*1024*1024);
+    QByteArray nonce = Tears::PublicKeyCrypto::boxNonce();
+    QByteArray cipherText, actual;
+    QByteArray receiverPublic, receiverSecret, senderPublic, senderSecret;
+
+    // Create keypairs
+    QVERIFY2(Tears::PublicKeyCrypto::boxKeyPair(receiverPublic, receiverSecret), "Failed to generate receiver keypair");
+    QVERIFY2(Tears::PublicKeyCrypto::boxKeyPair(senderPublic, senderSecret), "Failed to generate sender keypair");
+
+    // Secure exchange of public keys omitted...
+
+    QBENCHMARK{
+        cipherText = Tears::PublicKeyCrypto::box(original, nonce, receiverPublic, senderSecret);
+        QVERIFY2(cipherText.length() != 0, "The result from box() was of length 0.");
+
+        // Test decrypting
+        actual = Tears::PublicKeyCrypto::boxOpen(cipherText, nonce, senderPublic, receiverSecret);
+    }
+
     QVERIFY2(actual.length() != 0, "The result from boxOpen() was of length 0");
     QVERIFY2(actual == original, "Comparison of plaintext and decrypted ciphertext was not equal");
 }
