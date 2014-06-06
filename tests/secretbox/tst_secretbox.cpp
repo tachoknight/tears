@@ -51,14 +51,13 @@ void TearstestCrypto::testEncryptDecryptQString()
 
 void TearstestCrypto::testBigArray()
 {
-    // 64 MB
-    const QByteArray buffer = Tears::Crypto::getRandom(15);
+    const QByteArray buffer = Tears::Crypto::getRandom(64 * 1024 * 1024);
     QByteArray nonce = Tears::Crypto::secretBoxNonce();
     QByteArray key = Tears::Crypto::secretBoxKey();
+
     QByteArray encrypted = Tears::Crypto::secretBox(buffer, nonce, key);
     QVERIFY2(encrypted.length() != 0, "Null result returned on encryption using Crypto::secretBox()");
 
-    // Here encrypted changes to unencrypted...
     QByteArray decrypted = Tears::Crypto::secretBoxOpen(encrypted, nonce, key);
     QVERIFY2(decrypted.length() != 0, "Null result returned on encryption using Crypto::secretBox()");
     QVERIFY2(buffer == decrypted, "Comparison of large buffer failed after Crypto::secretBoxOpen()");
