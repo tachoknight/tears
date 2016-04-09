@@ -96,7 +96,7 @@ QByteArray Hashing::pwhash_scrypt(size_t outLen, const QString &password, const 
         return QByteArray();
     }
 
-    int result = crypto_pwhash_scryptxsalsa208sha256(
+    int result = crypto_pwhash_scryptsalsa208sha256(
                 toUnsignedChar(out.data()), out.length(),
                 passwd.data(), passwd.length(),
                 toConstUnsignedChar(salt.data()),

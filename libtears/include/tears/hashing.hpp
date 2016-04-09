@@ -66,7 +66,7 @@ public:
     /**
      * @brief The required length of the salt
      */
-    static const size_t pwhash_scrypt_saltbytes = crypto_pwhash_scryptxsalsa208sha256_SALTBYTES;
+    static const size_t pwhash_scrypt_saltbytes = crypto_pwhash_scryptsalsa208sha256_SALTBYTES;
 private:
 signals:
 

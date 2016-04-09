@@ -6,6 +6,7 @@
 
 QT -= gui
 QT += core
+mac:QT_CONFIG -= no-pkg-config
 
 TARGET = tears
 TEMPLATE = lib

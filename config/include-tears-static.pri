@@ -7,6 +7,10 @@ QT       -= gui
 CONFIG   += console
 CONFIG   -= app_bundle
 
+# Qt on the Mac assumes that pkg-config isn't installed,
+# so this will force it
+mac:QT_CONFIG -= no-pkg-config
+
 TEMPLATE = app
 
 DESTDIR = $$OUT_PWD/../binaries
